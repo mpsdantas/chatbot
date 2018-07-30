@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <title>Chat bot</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Modelo de ChatBot</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Intenções</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/defaults">Defaults</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Entidades</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/chat">Chat</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="offset-md-2 col-md-8">
+                <br>
+                <form id="formIntecao">
+                    <div class="form-group">
+                        <label>No momento so temos essas duas ações default:</label>
+                        <select class="form-control" id="selectDefault">
+                            <option value="bemVindo">Bem Vindo</option>
+                            <option value="semAcao">Sem Ação</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensagem enviar:</label>
+                        <input id="mensagemEnviar" type="text" class="form-control" placeholder="">
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src=" https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js " integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q "
+        crossorigin="anonymous "></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js " integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl "
+        crossorigin="anonymous"></script>
+    
+    <script>
+        $(document).ready(function () {
+            $('#formIntecao').submit(function (e) {
+                e.preventDefault();
+                let idDefault = $('#selectDefault').val();
+                let mensagemEnviar = $('#mensagemEnviar').val();
+                $.ajax({
+                    url: '/cadastrar-default',
+                    type: 'post',
+                    data: {
+                        idDefault,
+                        mensagemEnviar
+                    },
+                    success: function (data, status, xhr) {
+                        if (data.status) {
+                            $('#idDefault').val('bemVindo');
+                            $('#mensagemEnviar').val('');
+                            alert('Default cadastrado');
+                        }
+
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("Status: " + textStatus); alert("Error: " + errorThrown);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
